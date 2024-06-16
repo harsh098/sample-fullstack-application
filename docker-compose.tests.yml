@@ -1,0 +1,54 @@
+services:
+  redis:
+    restart: always
+    image: redis:7.0
+    networks:
+      - app_network
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      interval: 1s
+      timeout: 3s
+      retries: 5
+    command: ["redis-server"]
+  
+  postgres:
+    image: bitnami/postgresql:latest
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: Secret
+      POSTGRES_USER: root
+      POSTGRES_DB: app_db
+    networks:
+      - app_network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U root"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    
+  backend:
+    image: node:20-alpine
+    restart: always
+    networks:
+      - app_network
+    ports:
+      - 8000:3000
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://root:Secret@postgres:5432/app_db?sslmode=disable
+      REDIS_URL: redis://redis:6379
+    volumes:
+      - ./backend:/app
+      - ./tests/integration/backend/:/tests
+    user: root
+    command: >
+      sh -c "chmod +x /tests/tests.sh && cd /tests && ./tests.sh"
+
+
+  #TODO: Add Test code for frontend
