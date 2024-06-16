@@ -33,10 +33,10 @@ jobs:
           IMAGE_TAG: ${{ github.ref_name }}
           NEXT_PUBLIC_BACKEND_BASE_URL: ${{ vars.NEXT_PUBLIC_BACKEND_BASE_URL }}
         run: >
-          IMAGE_TAG=${{ github.sha }} docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
+          docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
       - name: Push to Github Container Registry
         env:
-          IMAGE_TAG: ${{ github.sha }}
+          IMAGE_TAG: ${{ github.ref_name }}
         run: |
           docker image tag ghcr.io/harsh098/samplefullstack_backend:$IMAGE_TAG  ghcr.io/harsh098/samplefullstack_backend:latest
           docker image tag ghcr.io/harsh098/samplefullstack_frontend:$IMAGE_TAG  ghcr.io/harsh098/samplefullstack_frontend:latest
