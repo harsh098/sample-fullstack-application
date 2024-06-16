@@ -29,7 +29,7 @@ jobs:
       - name: Configure Tests
         run: chmod +x run_tests.sh
       - name: Run CI Tests
-        run: /bin/bash -c "./run_tests"
+        run: /bin/bash -c "./run_tests.sh"
   
 
   
