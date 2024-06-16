@@ -47,8 +47,8 @@ jobs:
           IMAGE_ARG=${{ github.sha }} docker-compose -f docker-compose.yml -f docker-compose.prod.yml build && \
           docker tag ghcr.io/harsh098/samplefullstack_backend:$IMAGE_ARG  ghcr.io/harsh098/samplefullstack_backend:dev && \
           docker tag ghcr.io/harsh098/samplefullstack_frontend:$IMAGE_ARG  ghcr.io/harsh098/samplefullstack_frontend:dev && \
-          docker image push -a hcr.io/harsh098/samplefullstack_frontend && \
-          docker image push -a hcr.io/harsh098/samplefullstack_backend
+          docker image push -a ghcr.io/harsh098/samplefullstack_frontend && \
+          docker image push -a ghcr.io/harsh098/samplefullstack_backend
   
 
   
