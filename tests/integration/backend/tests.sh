@@ -8,8 +8,8 @@ cp -r /app /test_dir
 
 cd /test_dir
 
-yarn install
+yarn install --frozen-lockfile
 npx prisma generate || { echo 'Prisma Generation Failed'; exit 1; }
 npx prisma migrate deploy || { echo 'Prisma Migration Failed'; exit 1; }
 
-yarn run test:e2e
+yarn test:e2e
