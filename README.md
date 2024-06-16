@@ -24,7 +24,8 @@ This repo creates two Github Actions CI Workflows:
 ### Running on local
 - Run the following commands
     ```
-    docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d```  
+    docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+    ```  
 - Now you can access the app at `http://localhost:3000/`  
 - You can fine tune the following parameters using environment variables
     |Name|Purpose|Default Value|
@@ -37,4 +38,5 @@ This repo creates two Github Actions CI Workflows:
 ### Running Tests
 I have configured tests via the docker compose overlay `docker-compose.tests.yml`<br/>
 ```
-chmod +x run_tests.sh && ./run_tests.sh```
+chmod +x run_tests.sh && ./run_tests.sh
+```
