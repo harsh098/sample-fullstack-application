@@ -9,4 +9,4 @@ yarn install
 npx prisma generate || { echo 'Prisma Generation Failed'; exit 1; }
 npx prisma migrate || { echo 'Prisma Migration Failed'; exit 1; }
 
-yarn run tests:e2e
+yarn run test:e2e
