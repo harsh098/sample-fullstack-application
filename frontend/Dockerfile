@@ -2,11 +2,15 @@ FROM node:20-alpine AS base
 
 WORKDIR /app
 
+USER root
+
 COPY package.json package-lock.json ./
 
 RUN npm install
 
 FROM node:20-alpine as builder
+
+USER root
 
 ARG NEXT_PUBLIC_BACKEND_BASE_URL
 
@@ -18,7 +22,7 @@ WORKDIR /app
 
 COPY --from=base /app/node_modules ./node_modules
 
-COPY . .
+COPY --chown=node:node . .
 
 RUN npm run build 
 
@@ -26,6 +30,7 @@ FROM node:20-alpine as runner
 
 ENV NEXT_TELEMETRY_DISABLED 1
 
+USER root
 RUN addgroup nodejs
 RUN adduser -SDH nextjs
 RUN mkdir .next

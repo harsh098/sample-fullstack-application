@@ -10,8 +10,11 @@ FROM node:20-alpine as builder
 
 WORKDIR /app
 
+USER root
+
 COPY --from=base --chown=node:node /app/node_modules ./node_modules
-COPY . . 
+
+COPY --chown=node:node . .
 
 ENV NODE_ENV production
 
