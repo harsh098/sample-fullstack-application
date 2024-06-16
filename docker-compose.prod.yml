@@ -1,6 +1,6 @@
 services:
   backend:
-    image: ghcr.io/harsh098/samplefullstack_backend:latest
+    image: ghcr.io/harsh098/samplefullstack_backend:${IMAGE_TAG:-latest}
     restart: always
     networks:
       - app_network
@@ -20,7 +20,7 @@ services:
     command: ["yarn", "run", "start:migrate:prod"]
   
   frontend:
-    image: ghcr.io/harsh098/samplefullstack_frontend:latest
+    image: ghcr.io/harsh098/samplefullstack_frontend:${IMAGE_TAG:-latest}
     build:
       context: ./frontend
       dockerfile: Dockerfile
