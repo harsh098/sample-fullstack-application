@@ -54,10 +54,10 @@ jobs:
       - name: Push to Github Container Registry
         env:
           IMAGE_TAG: ${{ github.sha }}
-        run: >
-          docker image tag ghcr.io/harsh098/samplefullstack_backend:$IMAGE_TAG  ghcr.io/harsh098/samplefullstack_backend:dev && \
-          docker image tag ghcr.io/harsh098/samplefullstack_frontend:$IMAGE_TAG  ghcr.io/harsh098/samplefullstack_frontend:dev && \
-          docker image push -a ghcr.io/harsh098/samplefullstack_frontend && \
+        run: |
+          docker image tag ghcr.io/harsh098/samplefullstack_backend:$IMAGE_TAG  ghcr.io/harsh098/samplefullstack_backend:dev
+          docker image tag ghcr.io/harsh098/samplefullstack_frontend:$IMAGE_TAG  ghcr.io/harsh098/samplefullstack_frontend:dev
+          docker image push -a ghcr.io/harsh098/samplefullstack_frontend
           docker image push -a ghcr.io/harsh098/samplefullstack_backend
 
 
