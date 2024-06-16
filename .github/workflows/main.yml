@@ -44,6 +44,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build docker image
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+          NEXT_PUBLIC_BACKEND_BASE_URL: ${{ vars.NEXT_PUBLIC_BACKEND_BASE_URL }}
         run: > 
           IMAGE_TAG=${{ github.sha }} docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
       - name: Push to Github Container Registry
