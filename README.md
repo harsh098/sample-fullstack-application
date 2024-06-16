@@ -1,6 +1,6 @@
 # Sample Fullstack Application
 
-This repo is creates two Github Actions CI Pipelines:  
+This repo creates two Github Actions CI Pipelines:  
 | Name | Purpose |Trigger|
 |---|---|---|
 |`.github/workflows/dev.yml`| Runs CI Tests(Integration) Pushes a Developer Build to the Github Container Repository.|`push`, `pull_request` or manually triggered on main branch |
