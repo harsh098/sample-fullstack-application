@@ -4,7 +4,7 @@ This repo creates two Github Actions CI Workflows:
 | Name | Purpose |Trigger|
 |---|---|---|
 |`.github/workflows/dev.yml`| Runs CI Tests(Integration) Pushes a Developer Build to the Github Container Repository.|`push`, `pull_request` or manually triggered on main branch |
-|`.github/workflows/dev.yml`| Build a Release Docker Image |when a **version tag** (Semver `v.*.*` ) is pushed or **manually triggered** on main branch|
+|`.github/workflows/release.yml`| Build a Release Docker Image |when a **version tag** (Semver `v.*.*` ) is pushed or **manually triggered** on main branch|
 
 ## Accomplished Tasks
 - Separate docker overrides for different environments
