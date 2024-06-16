@@ -1,0 +1,44 @@
+name: Publish a Release Docker Image to Github Container Registry
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  packages: write
+
+
+jobs:
+  build_release_images:
+    name: Build Docker Images
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ github.workspace }}
+        
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v1
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build docker image
+        env:
+          IMAGE_TAG: ${{ github.ref_name }}
+          NEXT_PUBLIC_BACKEND_BASE_URL: ${{ vars.NEXT_PUBLIC_BACKEND_BASE_URL }}
+        run: >
+          IMAGE_TAG=${{ github.sha }} docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
+      - name: Push to Github Container Registry
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker image tag ghcr.io/harsh098/samplefullstack_backend:$IMAGE_TAG  ghcr.io/harsh098/samplefullstack_backend:latest
+          docker image tag ghcr.io/harsh098/samplefullstack_frontend:$IMAGE_TAG  ghcr.io/harsh098/samplefullstack_frontend:latest
+          docker image push -a ghcr.io/harsh098/samplefullstack_frontend
+          docker image push -a ghcr.io/harsh098/samplefullstack_backend
