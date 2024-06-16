@@ -16,13 +16,16 @@ if [ $? -ne 0 ] ; then
   cleanup
   exit -1
 fi
-TEST_EXIT_CODE=`docker wait ci_backend_1`
-docker logs ci_tests_1
-if [ -z ${TEST_EXIT_CODE+x} ] || [ "$TEST_EXIT_CODE" -ne 0 ] ; then
-  docker logs ci_postgres_1
-  docker logs ci_redis_1
-  docker logs ci_backend_1
+docker compose -p ci wait backend
+TEST_EXIT_CODE=$?
+docker compose -p ci logs backend
+if [ "$TEST_EXIT_CODE" -ne 0 ] ; then
+  docker compose -p ci logs postgres
+  docker compose -p ci logs redis
+  docker compose -p ci logs backend
   printf "${RED}Tests Failed${NC} - Exit Code: $TEST_EXIT_CODE\n"
+  cleanup
+  exit $TEST_EXIT_CODE
 else
   printf "${GREEN}Tests Passed${NC}\n"
 fi
