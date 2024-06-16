@@ -27,6 +27,7 @@ jobs:
         run: /bin/bash -c "./run_tests.sh"
   
   build_dev_images:
+    needs: run_tests
     name: Build Docker Images
     runs-on: ubuntu-latest
     defaults:
