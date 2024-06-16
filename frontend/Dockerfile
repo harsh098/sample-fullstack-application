@@ -12,6 +12,8 @@ ARG NEXT_PUBLIC_BACKEND_BASE_URL
 
 ENV NEXT_PUBLIC_BACKEND_BASE_URL ${NEXT_PUBLIC_BACKEND_BASE_URL}
 
+ENV NODE_ENV production
+
 WORKDIR /app
 
 COPY --from=base /app/node_modules ./node_modules
@@ -21,7 +23,6 @@ COPY . .
 RUN npm run build 
 
 FROM node:20-alpine as runner 
-ENV NODE_ENV production
 
 ENV NEXT_TELEMETRY_DISABLED 1
 
