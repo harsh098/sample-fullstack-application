@@ -20,8 +20,6 @@ services:
       POSTGRES_DB: app_db
     networks:
       - app_network
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U root"]
       interval: 5s

@@ -10,23 +10,7 @@ services:
       timeout: 3s
       retries: 5
     command: ["redis-server"]
-  
-  postgres:
-    image: bitnami/postgresql:latest
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: ${PG_PASSWORD:-Secret}
-      POSTGRES_USER: ${PG_USER:-pguser}
-      POSTGRES_DB: app_db
-    networks:
-      - app_network
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U root"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+
 
 networks:
   app_network:
