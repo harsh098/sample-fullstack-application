@@ -42,14 +42,24 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v1
-      - name: Push docker image to Github Container Registry
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build docker image
         run: > 
-          IMAGE_TAG= ${{ github.sha }}docker-compose -f docker-compose.yml -f docker-compose.prod.yml build && \
-          docker image tag ghcr.io/harsh098/samplefullstack_backend:$IMAGE_ARG  ghcr.io/harsh098/samplefullstack_backend:dev && \
-          docker image tag ghcr.io/harsh098/samplefullstack_frontend:$IMAGE_ARG  ghcr.io/harsh098/samplefullstack_frontend:dev && \
+          IMAGE_TAG=${{ github.sha }} docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
+      - name: Push to Github Container Registry
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+        run: >
+          docker image tag ghcr.io/harsh098/samplefullstack_backend:$IMAGE_TAG  ghcr.io/harsh098/samplefullstack_backend:dev && \
+          docker image tag ghcr.io/harsh098/samplefullstack_frontend:$IMAGE_TAG  ghcr.io/harsh098/samplefullstack_frontend:dev && \
           docker image push -a ghcr.io/harsh098/samplefullstack_frontend && \
           docker image push -a ghcr.io/harsh098/samplefullstack_backend
-  
+
 
   
   
